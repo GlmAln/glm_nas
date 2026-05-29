@@ -1,0 +1,60 @@
+name: big-bear-jellyseerr
+services:
+    app:
+        environment:
+            LOG_LEVEL: debug
+            TZ: Europe/Paris
+        image: fallenbagel/jellyseerr:latest
+        labels:
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/jellyseerr.png
+        network_mode: bridge
+        ports:
+            - mode: ingress
+              target: 5055
+              published: "5055"
+              protocol: tcp
+        restart: unless-stopped
+        volumes:
+            - type: bind
+              source: /DATA/AppData/big-bear-jellyseerr/config
+              target: /app/config
+              bind:
+                  create_host_path: true
+        x-casaos:
+            envs:
+                - container: LOG_LEVEL
+                  description:
+                      en_us: 'Container Variable: LOG_LEVEL'
+                - container: TZ
+                  description:
+                      en_us: 'Container Variable: TZ'
+            ports:
+                - container: "5055"
+                  description:
+                      en_us: 'Container Port: 5055'
+            volumes:
+                - container: /app/config
+                  description:
+                      en_us: 'Container Path: /app/config'
+networks:
+    default:
+        name: big-bear-jellyseerr_default
+x-casaos:
+    architectures:
+        - amd64
+        - arm64
+    author: BigBearCommunity
+    category: BigBearCasaOS
+    description:
+        en_us: Jellyseerr is a free and open source software application for managing requests for your media library. It is a fork of Overseerr built to bring support for Jellyfin & Emby media servers!
+    developer: Fallenbagel
+    icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/jellyseerr.png
+    is_uncontrolled: false
+    main: app
+    port_map: "5055"
+    store_app_id: big-bear-jellyseerr
+    tagline:
+        en_us: Jellyseerr is a free and open source software application for managing requests for your media library. It is a fork of Overseerr built to bring support for Jellyfin & Emby media servers!
+    thumbnail: https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Jellyseerr/thumbnail.jpg
+    title:
+        en_us: Jellyseerr

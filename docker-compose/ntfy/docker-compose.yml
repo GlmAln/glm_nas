@@ -1,0 +1,66 @@
+name: big-bear-ntfy
+services:
+    app:
+        command:
+            - serve
+        environment:
+            TZ: UTC
+        image: binwiederhier/ntfy:v2.21.0
+        labels:
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/ntfy.png
+        networks:
+            default: null
+        ports:
+            - target: 80
+              published: "7200"
+              protocol: tcp
+        restart: unless-stopped
+        volumes:
+            - type: bind
+              source: /DATA/AppData/$AppID/cache
+              target: /var/cache/ntfy
+              bind:
+                create_host_path: true
+            - type: bind
+              source: /DATA/AppData/$AppID/config
+              target: /etc/ntfy
+              bind:
+                create_host_path: true
+        x-casaos:
+            envs:
+                - container: TZ
+                  description:
+                    en_us: 'Container Variable: TZ'
+            ports:
+                - container: "80"
+                  description:
+                    en_us: 'Container Port: 80'
+            volumes:
+                - container: /var/cache/ntfy
+                  description:
+                    en_us: 'Container Path: /var/cache/ntfy'
+                - container: /etc/ntfy
+                  description:
+                    en_us: 'Container Path: /etc/ntfy'
+networks:
+    default:
+        name: big-bear-ntfy_default
+x-casaos:
+    architectures:
+        - amd64
+        - arm64
+    author: BigBearTechWorld
+    category: BigBearCasaOS
+    description:
+        en_us: ntfy (pronounced notify) is a simple HTTP-based pub-sub notification service. It allows you to send notifications to your phone or desktop via scripts from any computer, and/or using a REST API. It's infinitely flexible, and 100% free software.
+    developer: binwiederhier
+    icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/ntfy.png
+    is_uncontrolled: false
+    main: app
+    port_map: "7200"
+    store_app_id: big-bear-ntfy
+    tagline:
+        en_us: A simple HTTP-based pub-sub notification service
+    thumbnail: https://ntfy.sh/_next/static/media/screenshot-web-3.de6f19af.png
+    title:
+        en_us: Ntfy.sh

@@ -1,0 +1,211 @@
+name: modest_martin
+services:
+    flaresolverr:
+        cpu_shares: 90
+        command: []
+        container_name: flaresolverr
+        deploy:
+            resources:
+                limits:
+                    memory: "8170504192"
+        environment:
+            LOG_LEVEL: info
+            TZ: Europe/Paris
+        hostname: flaresolverr
+        image: ghcr.io/flaresolverr/flaresolverr:latest
+        labels:
+            icon: https://icon.casaos.io/main/all/gluetun.png
+        networks:
+            default: null
+        ports:
+            - mode: ingress
+              target: 8191
+              published: "8191"
+              protocol: tcp
+        restart: unless-stopped
+    gluetun:
+        cap_add:
+            - NET_ADMIN
+        cpu_shares: 90
+        command: []
+        container_name: gluetun
+        deploy:
+            resources:
+                limits:
+                    memory: "8170504192"
+        devices:
+            - /dev/net/tun:/dev/net/tun
+        environment:
+            FIREWALL_INPUT_PORTS: "8080"
+            FIREWALL_OUTBOUND_SUBNETS: 192.168.1.0/24
+            SERVER_COUNTRIES: France
+            VPN_PORT_FORWARDING: "on"
+            VPN_PORT_FORWARDING_PROVIDER: protonvpn
+            VPN_SERVICE_PROVIDER: protonvpn
+            VPN_TYPE: wireguard
+            WIREGUARD_ADDRESSES: ${WIREGUARD_ADDRESSES}
+            WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY}
+        hostname: gluetun
+        image: qmcgaw/gluetun:latest
+        labels:
+            icon: https://icon.casaos.io/main/all/gluetun.png
+        network_mode: bridge
+        ports:
+            - target: 8080
+              published: "8080"
+              protocol: tcp
+            - target: 6881
+              published: "6881"
+              protocol: tcp
+            - target: 6881
+              published: "6881"
+              protocol: udp
+        privileged: true
+        restart: always
+    prowlarr:
+        cpu_shares: 90
+        command: []
+        container_name: prowlarr
+        deploy:
+            resources:
+                limits:
+                    memory: "8170504192"
+        environment:
+            PGID: "1002"
+            PUID: "1002"
+            TZ: Europe/Paris
+        hostname: prowlarr
+        image: lscr.io/linuxserver/prowlarr:latest
+        labels:
+            icon: https://icon.casaos.io/main/all/gluetun.png
+        networks:
+            default: null
+        ports:
+            - mode: ingress
+              target: 9696
+              published: "9696"
+              protocol: tcp
+        restart: unless-stopped
+        volumes:
+            - type: bind
+              source: /DATA/AppData/prowlarr/config
+              target: /config
+              bind:
+                create_host_path: true
+    qbittorrent:
+        cpu_shares: 90
+        command: []
+        container_name: qbittorrent
+        depends_on:
+            gluetun:
+                condition: service_started
+                required: true
+        deploy:
+            resources:
+                limits:
+                    memory: "8170504192"
+        environment:
+            PGID: "1002"
+            PUID: "1002"
+            TZ: Europe/Paris
+            WEBUI_PORT: "8080"
+        image: lscr.io/linuxserver/qbittorrent:latest
+        labels:
+            icon: https://icon.casaos.io/main/all/gluetun.png
+        network_mode: "container:gluetun"
+        restart: always
+        volumes:
+            - type: bind
+              source: /DATA/AppData/qbittorrent/config
+              target: /config
+            - type: bind
+              source: /mnt/ironwolf/data
+              target: /data
+    radarr:
+        cpu_shares: 90
+        command: []
+        container_name: radarr
+        deploy:
+            resources:
+                limits:
+                    memory: "8170504192"
+        environment:
+            PGID: "1002"
+            PUID: "1002"
+            TZ: Europe/Paris
+        hostname: radarr
+        image: lscr.io/linuxserver/radarr:latest
+        labels:
+            icon: https://icon.casaos.io/main/all/gluetun.png
+        networks:
+            default: null
+        ports:
+            - mode: ingress
+              target: 7878
+              published: "7878"
+              protocol: tcp
+        restart: unless-stopped
+        volumes:
+            - type: bind
+              source: /DATA/AppData/radarr/config
+              target: /config
+              bind:
+                create_host_path: true
+            - type: bind
+              source: /mnt/ironwolf/data
+              target: /data
+              bind:
+                create_host_path: true
+    sonarr:
+        cpu_shares: 90
+        command: []
+        container_name: sonarr
+        deploy:
+            resources:
+                limits:
+                    memory: "8170504192"
+        environment:
+            PGID: "1002"
+            PUID: "1002"
+            TZ: Europe/Paris
+        hostname: sonarr
+        image: lscr.io/linuxserver/sonarr:latest
+        labels:
+            icon: https://icon.casaos.io/main/all/gluetun.png
+        networks:
+            default: null
+        ports:
+            - mode: ingress
+              target: 8989
+              published: "8989"
+              protocol: tcp
+        restart: unless-stopped
+        volumes:
+            - type: bind
+              source: /DATA/AppData/sonarr/config
+              target: /config
+              bind:
+                create_host_path: true
+            - type: bind
+              source: /mnt/ironwolf/data
+              target: /data
+              bind:
+                create_host_path: true
+networks:
+    default:
+        name: modest_martin_default
+    gluetun:
+        name: gluetun
+x-casaos:
+    author: self
+    category: self
+    hostname: ""
+    icon: https://icon.casaos.io/main/all/gluetun.png
+    index: /
+    is_uncontrolled: false
+    port_map: ""
+    scheme: http
+    store_app_id: modest_martin
+    title:
+        custom: qbittorrent
+        en_us: gluetun

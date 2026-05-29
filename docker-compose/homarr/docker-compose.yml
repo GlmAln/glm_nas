@@ -1,0 +1,69 @@
+name: big-bear-homarr-v1
+services:
+    big-bear-homarr-v1:
+        container_name: big-bear-homarr-v1
+        environment:
+            SECRET_ENCRYPTION_KEY: "072d9f2954675a372deaa4d3a6a3961daaf5bc0306479d3d74878f1ac996df94"
+        image: ghcr.io/homarr-labs/homarr:v1.59.1
+        labels:
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/homarr.png
+        networks:
+            default: null
+        ports:
+            - mode: ingress
+              target: 7575
+              published: "7575"
+              protocol: tcp
+        restart: unless-stopped
+        volumes:
+            - type: bind
+              source: /var/run/docker.sock
+              target: /var/run/docker.sock
+              bind:
+                create_host_path: true
+            - type: bind
+              source: /DATA/AppData/$AppID/appdata
+              target: /appdata
+              bind:
+                create_host_path: true
+        x-casaos:
+            envs:
+                - container: SECRET_ENCRYPTION_KEY
+                  description:
+                    en_us: 'Container Variable: SECRET_ENCRYPTION_KEY'
+            ports:
+                - container: "7575"
+                  description:
+                    en_us: 'Container Port: 7575'
+            volumes:
+                - container: /var/run/docker.sock
+                  description:
+                    en_us: 'Container Path: /var/run/docker.sock'
+                - container: /appdata
+                  description:
+                    en_us: 'Container Path: /appdata'
+networks:
+    default:
+        name: big-bear-homarr-v1_default
+x-casaos:
+    architectures:
+        - amd64
+        - arm64
+    author: BigBearTechWorld
+    category: BigBearCasaOS
+    description:
+        en_us: 'Homarr v1 - A sleek, modern dashboard for your server. This is the latest major version (v1.x) from homarr-labs with improved architecture and features. Note: This version uses a different data structure and requires SECRET_ENCRYPTION_KEY. Not compatible with legacy Homarr (v0.x) data without migration.'
+    developer: homarr-labs
+    icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/homarr.png
+    is_uncontrolled: false
+    main: big-bear-homarr-v1
+    port_map: "7575"
+    store_app_id: big-bear-homarr-v1
+    tagline:
+        en_us: Homarr v1 (Latest)
+    thumbnail: ""
+    tips:
+        before_install:
+            en_us: 'Read this before installing: https://community.bigbeartechworld.com/t/added-homarr-v1-to-bigbearcasaos/5074#p-7710-documentation-2'
+    title:
+        en_us: Homarr v1
