@@ -59,8 +59,8 @@
 
 ```bash
 # Clone the repo
-git clone https://github.com/TON_USERNAME/nas-config.git
-cd nas-config
+git clone https://github.com/GlmAln/glm_nas.git
+cd glm_nas
 
 # Copy and fill environment variables
 cp .env.example .env
