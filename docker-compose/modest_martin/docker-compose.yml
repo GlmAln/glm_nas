@@ -14,7 +14,7 @@ services:
         hostname: flaresolverr
         image: ghcr.io/flaresolverr/flaresolverr:latest
         labels:
-            icon: https://icon.casaos.io/main/all/gluetun.png
+            icon: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%2Fid%2FOIP.Uxyp00vtyzpjOyaQCAXvTwHaHa%3Fpid%3DApi&f=1&ipt=21ea12cdddb769adc5fa40774ef654e7c0abf0d8f67ed5b2ff90ed036889e86a&ipo=images
         networks:
             default: null
         ports:
@@ -43,12 +43,12 @@ services:
             VPN_PORT_FORWARDING_PROVIDER: protonvpn
             VPN_SERVICE_PROVIDER: protonvpn
             VPN_TYPE: wireguard
-            WIREGUARD_ADDRESSES: ${WIREGUARD_ADDRESSES}
-            WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY}
+            WIREGUARD_ADDRESSES: 10.2.0.2/32
+            WIREGUARD_PRIVATE_KEY: iKmhcXf9/LLICKxQhTVHpZUUv1l+K6tNIl9HMcOkUlw=
         hostname: gluetun
         image: qmcgaw/gluetun:latest
         labels:
-            icon: https://icon.casaos.io/main/all/gluetun.png
+            icon: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%2Fid%2FOIP.Uxyp00vtyzpjOyaQCAXvTwHaHa%3Fpid%3DApi&f=1&ipt=21ea12cdddb769adc5fa40774ef654e7c0abf0d8f67ed5b2ff90ed036889e86a&ipo=images
         network_mode: bridge
         ports:
             - target: 8080
@@ -77,7 +77,7 @@ services:
         hostname: prowlarr
         image: lscr.io/linuxserver/prowlarr:latest
         labels:
-            icon: https://icon.casaos.io/main/all/gluetun.png
+            icon: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%2Fid%2FOIP.Uxyp00vtyzpjOyaQCAXvTwHaHa%3Fpid%3DApi&f=1&ipt=21ea12cdddb769adc5fa40774ef654e7c0abf0d8f67ed5b2ff90ed036889e86a&ipo=images
         networks:
             default: null
         ports:
@@ -111,8 +111,8 @@ services:
             WEBUI_PORT: "8080"
         image: lscr.io/linuxserver/qbittorrent:latest
         labels:
-            icon: https://icon.casaos.io/main/all/gluetun.png
-        network_mode: "container:gluetun"
+            icon: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%2Fid%2FOIP.Uxyp00vtyzpjOyaQCAXvTwHaHa%3Fpid%3DApi&f=1&ipt=21ea12cdddb769adc5fa40774ef654e7c0abf0d8f67ed5b2ff90ed036889e86a&ipo=images
+        network_mode: container:gluetun
         restart: always
         volumes:
             - type: bind
@@ -136,7 +136,7 @@ services:
         hostname: radarr
         image: lscr.io/linuxserver/radarr:latest
         labels:
-            icon: https://icon.casaos.io/main/all/gluetun.png
+            icon: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%2Fid%2FOIP.Uxyp00vtyzpjOyaQCAXvTwHaHa%3Fpid%3DApi&f=1&ipt=21ea12cdddb769adc5fa40774ef654e7c0abf0d8f67ed5b2ff90ed036889e86a&ipo=images
         networks:
             default: null
         ports:
@@ -171,7 +171,7 @@ services:
         hostname: sonarr
         image: lscr.io/linuxserver/sonarr:latest
         labels:
-            icon: https://icon.casaos.io/main/all/gluetun.png
+            icon: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%2Fid%2FOIP.Uxyp00vtyzpjOyaQCAXvTwHaHa%3Fpid%3DApi&f=1&ipt=21ea12cdddb769adc5fa40774ef654e7c0abf0d8f67ed5b2ff90ed036889e86a&ipo=images
         networks:
             default: null
         ports:
@@ -194,18 +194,16 @@ services:
 networks:
     default:
         name: modest_martin_default
-    gluetun:
-        name: gluetun
 x-casaos:
     author: self
     category: self
     hostname: ""
-    icon: https://icon.casaos.io/main/all/gluetun.png
+    icon: ""
     index: /
     is_uncontrolled: false
     port_map: ""
     scheme: http
     store_app_id: modest_martin
     title:
-        custom: qbittorrent
+        custom: flaresolverr
         en_us: gluetun
